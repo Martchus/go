@@ -760,6 +760,18 @@ var unmarshalTests = []unmarshalTest{
 	{in: `999999999999999900000`, ptr: new(float64), out: 999999999999999900000.0, golden: true},
 	{in: `9007199254740992`, ptr: new(float64), out: 9007199254740992.0, golden: true},
 	{in: `9007199254740993`, ptr: new(float64), out: 9007199254740992.0, golden: false},
+	{in: `1.234567e+06`, ptr: new(int), out: 1234567},
+	{in: `-1.234567e+06`, ptr: new(int), out: -1234567},
+	{in: `1.234567e+06`, ptr: new(uint), out: uint(1234567)},
+	{
+		in: `1.234567e+05`,
+		ptr: new(int),
+		err: &UnmarshalTypeError{
+				Value:  "number 1.234567e+05",
+				Type:   reflect.TypeOf(int(0)),
+				Offset: 12,
+		},
+	},
 
 	{
 		in:  `{"V": {"F2": "hello"}}`,
